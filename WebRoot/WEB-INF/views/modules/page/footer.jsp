@@ -1,9 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 <footer class="page-footer fixed-footer" id="footer">
 	<ul>
 		<li class="active">
 			<a href="index.html">
 				<i class="iconfont icon-shouye"></i>
-				<p>Ê×Ò³</p>
+				<p>é¦–é¡µ</p>
 			</a>
 		</li>
 		<li>
@@ -11,13 +13,13 @@
 				<i class="iconfont icon-gouwuche">
 					<span>0</span>
 				</i>
-				<p>¹ºÎï³µ</p>
+				<p>è´­ç‰©è½¦</p>
 			</a>
 		</li>
 		<li>
 			<a href="login.html">
 				<i class="iconfont icon-yonghuming"></i>
-				<p>ÎÒµÄ</p>
+				<p>æˆ‘çš„</p>
 			</a>
 		</li>
 	</ul>
