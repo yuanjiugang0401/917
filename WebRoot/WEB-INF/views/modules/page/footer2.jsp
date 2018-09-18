@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <footer class="page-footer fixed-footer" id="footer">
 	<ul>
-		<li class="active">
+		<li>
 			<a href="${ctx}/page/index">
 				<i class="iconfont icon-shouye"></i>
 				<p>首页</p>
@@ -17,7 +17,7 @@
 				<p>购物车</p>
 			</a>
 		</li>
-		<li>
+		<li class="active">
 			<a href="${ctx}/page/home">
 				<i class="iconfont icon-yonghuming"></i>
 				<p>我的</p>

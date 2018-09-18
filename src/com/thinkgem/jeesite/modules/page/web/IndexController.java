@@ -27,8 +27,10 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.page.util.EmojiUtil;
 import com.thinkgem.jeesite.modules.weixin.util.WxUtil;
+import com.thinkgem.jeesite.modules.zl.entity.ZlGoods;
 import com.thinkgem.jeesite.modules.zl.entity.ZlUser;
 import com.thinkgem.jeesite.modules.zl.entity.ZlWxSetting;
+import com.thinkgem.jeesite.modules.zl.service.ZlGoodsService;
 import com.thinkgem.jeesite.modules.zl.service.ZlUserService;
 import com.thinkgem.jeesite.modules.zl.service.ZlWxSettingService;
 
@@ -46,11 +48,15 @@ public class IndexController extends BaseController {
 	private ZlWxSettingService zlWxSettingService;
 	@Autowired
 	private ZlUserService zlUserService;
+	@Autowired
+	private ZlGoodsService zlGoodsService;
 	private Logger log = Logger.getLogger(getClass());
 
 	@RequestMapping(value = "page/index")
 	public String index(HttpSession session, Model model) {
-		model.addAttribute("zlWxSetting", "1");
+		ZlGoods zlGoods=new ZlGoods(); 
+		List<ZlGoods> goodsList=zlGoodsService.findList(zlGoods);
+		model.addAttribute("goodsList", goodsList);
 		return "modules/page/index";
 	}
 
