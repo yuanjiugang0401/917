@@ -96,9 +96,10 @@ public class IndexController extends BaseController {
 					zlUserService.save(zlUser);
 					isUrl = 1;
 				}
-				// cart.setOppen_id(oppen_id);
-				// int cart_num = cartService.goodstotalnum(cart);
-				// session.setAttribute("cart_num", cart_num);
+				//cart.setOppen_id(oppen_id);
+				//cartService.goodstotalnum(cart);
+				int cart_num =5; 
+				session.setAttribute("cart_num", cart_num);
 
 			} else {
 				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");

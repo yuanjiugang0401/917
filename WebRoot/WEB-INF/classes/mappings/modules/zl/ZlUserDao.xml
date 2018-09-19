@@ -42,10 +42,10 @@
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="oppenId != null and oppenId != ''">
-				AND a.oppen_id={oppenId}
+				AND a.oppen_id=#{oppenId}
 			</if>
 			<if test="id != null and id != ''">
-				AND a.id={id}
+				AND a.id=#{id}
 			</if>
 		</where>
 		<choose>

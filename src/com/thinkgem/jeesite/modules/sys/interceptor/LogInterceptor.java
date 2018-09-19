@@ -35,7 +35,8 @@ public class LogInterceptor extends BaseService implements HandlerInterceptor {
 			"ThreadLocal StartTime");
 	private static final String[] IGNORE_URI = { "/gen/", "/sys/", "/cms/",
 			"/oa/", "/admin/", "/userInsert", "/oauth2/",
-			"/noticeOrder.html", "a?login","/zl","page/index"};
+			"/noticeOrder.html", "a?login","/zl"};
+	//"page/index"
 	Map<String, Object> map = new HashMap<String, Object>();
 	private Logger log = Logger.getLogger(getClass());
 	@Override
