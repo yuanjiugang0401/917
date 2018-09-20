@@ -54,7 +54,7 @@
 	width: 100%;
 	height: 46px;
 	display: flex;
-	justify-content: end;
+	justify-content: flex-end;
 	background-color: #f7f7fa;
 }
 .car a {
@@ -68,5 +68,5 @@
 	background: #ffb03f;
 }
 .buy {
-	background: #e21323;
+	background: #43cf7c;
 }

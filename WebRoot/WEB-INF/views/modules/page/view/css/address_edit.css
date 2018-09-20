@@ -1,0 +1,41 @@
+.weui-cells {
+	font-size: 14px;
+}
+.weui-cell__hd {
+	width: 80px;
+	font-size: 14px;
+}
+.weui-label {
+	width: 80px;
+	font-size: 14px;
+}
+.weui-input {
+	-moz-appearance: textfield;
+}
+
+.link {
+	padding: 0 10px;
+	margin: 20px 0;
+}
+.link a {
+	margin-bottom: 20px;
+	display: block;
+	width: 100%;
+	color: #fff;
+	padding: 8px 0;
+	font-size: 18px;
+	border-radius: 6px;
+	text-align: center;
+	background-color: #1aad19;
+}
+.link .red {
+	background: #e64340;
+}
+
+.weui-picker__item {
+	font-size: 14px;
+}
+
+.recharge {
+	border-bottom: 1px solid #f5f5f5;
+}
