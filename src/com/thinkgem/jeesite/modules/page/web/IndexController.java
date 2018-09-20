@@ -27,9 +27,11 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.page.util.EmojiUtil;
 import com.thinkgem.jeesite.modules.weixin.util.WxUtil;
+import com.thinkgem.jeesite.modules.zl.entity.ZlCart;
 import com.thinkgem.jeesite.modules.zl.entity.ZlGoods;
 import com.thinkgem.jeesite.modules.zl.entity.ZlUser;
 import com.thinkgem.jeesite.modules.zl.entity.ZlWxSetting;
+import com.thinkgem.jeesite.modules.zl.service.ZlCartService;
 import com.thinkgem.jeesite.modules.zl.service.ZlGoodsService;
 import com.thinkgem.jeesite.modules.zl.service.ZlUserService;
 import com.thinkgem.jeesite.modules.zl.service.ZlWxSettingService;
@@ -45,23 +47,29 @@ import com.thinkgem.jeesite.modules.zl.service.ZlWxSettingService;
 public class IndexController extends BaseController {
 
 	@Autowired
-	private ZlWxSettingService zlWxSettingService;
-	@Autowired
 	private ZlUserService zlUserService;
 	@Autowired
 	private ZlGoodsService zlGoodsService;
+	@Autowired
+	private ZlCartService zlCartService;
 	private Logger log = Logger.getLogger(getClass());
 
 	@RequestMapping(value = "page/index")
-	public String index(HttpSession session, Model model) {
+	public String index(HttpSession session, Model model,HttpServletRequest request, HttpServletResponse response) {
 		ZlGoods zlGoods=new ZlGoods(); 
 		List<ZlGoods> goodsList=zlGoodsService.findList(zlGoods);
+		ZlCart zlCart=new ZlCart();
+		//zlCart.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk");
+		zlCart.setOppenId(getOppen_id(session));
+		long cart_num= zlCartService.goodsTotalNum(zlCart);
+		//模拟购物车中数量
+		session.setAttribute("cart_num", cart_num);
 		model.addAttribute("goodsList", goodsList);
 		return "modules/page/index";
 	}
 
 	@RequestMapping(value = "page/userInsert")
-	public String userInsert(HttpServletRequest request, HttpSession session,
+	public String userInsert(HttpServletRequest request,HttpServletResponse response, HttpSession session,
 			Model model, String url) {
 		String oppen_id = "";
 		String username = "";
@@ -79,7 +87,7 @@ public class IndexController extends BaseController {
 				zlUser.setRealname(EmojiUtil.emojiConvert(map.get("realname").toString()));
 				zlUser.setHeadImg(map.get("head_img").toString());
 				zlUser.setStatus("1");
-				session.setAttribute("oppen_id", oppen_id);
+				setOppen_id(oppen_id, session);
 				// session.setAttribute("realname",map.get("realname"));
 				// session.setAttribute("head_img",map.get("head_img"));
 				List<ZlUser> userList = zlUserService.findList(zlUser);
@@ -96,11 +104,10 @@ public class IndexController extends BaseController {
 					zlUserService.save(zlUser);
 					isUrl = 1;
 				}
-				//cart.setOppen_id(oppen_id);
-				//cartService.goodstotalnum(cart);
-				int cart_num =5; 
+				ZlCart zlCart=new ZlCart();
+				zlCart.setOppenId(oppen_id);
+				long cart_num= zlCartService.goodsTotalNum(zlCart);
 				session.setAttribute("cart_num", cart_num);
-
 			} else {
 				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 				System.out.println("oppen_id==null");

@@ -12,7 +12,7 @@
 		<li class="active">
 			<a href="${ctx}/page/shopcar">
 				<i class="iconfont icon-gouwuche">
-					<span id="cart_num">${cart_num}</span>
+					<c:if test="${cart_num!=0&&!empty cart_num }"><span id="cart_num">${cart_num}</span></c:if>
 				</i>
 				<p>购物车</p>
 			</a>

@@ -7,32 +7,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.common.utils.StringUtils;
+
 import com.thinkgem.jeesite.modules.page.util.EmojiUtil;
-import com.thinkgem.jeesite.modules.weixin.util.WxUtil;
-import com.thinkgem.jeesite.modules.zl.entity.ZlGoods;
 import com.thinkgem.jeesite.modules.zl.entity.ZlUser;
-import com.thinkgem.jeesite.modules.zl.entity.ZlWxSetting;
-import com.thinkgem.jeesite.modules.zl.service.ZlGoodsService;
 import com.thinkgem.jeesite.modules.zl.service.ZlUserService;
-import com.thinkgem.jeesite.modules.zl.service.ZlWxSettingService;
 
 /**
  * 购物车
@@ -43,14 +30,20 @@ import com.thinkgem.jeesite.modules.zl.service.ZlWxSettingService;
 @Controller
 @RequestMapping(value = "${adminPath}/")
 public class HomeController extends BaseController {
-	
 	@Autowired
-	private ZlGoodsService zlGoodsService;
-	private Logger log = Logger.getLogger(getClass());
+	private ZlUserService zlUserService;
 
 	@RequestMapping(value = "page/home")
 	public String shopcar(HttpSession session, Model model) {
-		
+		ZlUser zlUser = new ZlUser();
+		// 正式环境
+		zlUser.setOppenId(getOppen_id(session));
+		// 测试数据
+		// zlUser.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk");
+
+		ZlUser user = zlUserService.get(zlUser);
+		user.setRealname(EmojiUtil.emojiRecovery(user.getRealname()));
+		model.addAttribute("zlUser", user);
 		return "modules/page/home";
 	}
 

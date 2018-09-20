@@ -11,28 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.page.util.EmojiUtil;
-import com.thinkgem.jeesite.modules.weixin.util.WxUtil;
-import com.thinkgem.jeesite.modules.zl.entity.ZlGoods;
-import com.thinkgem.jeesite.modules.zl.entity.ZlUser;
-import com.thinkgem.jeesite.modules.zl.entity.ZlWxSetting;
-import com.thinkgem.jeesite.modules.zl.service.ZlGoodsService;
-import com.thinkgem.jeesite.modules.zl.service.ZlUserService;
-import com.thinkgem.jeesite.modules.zl.service.ZlWxSettingService;
+import com.thinkgem.jeesite.modules.zl.entity.ZlCart;
+import com.thinkgem.jeesite.modules.zl.service.ZlCartService;
 
 /**
  * 购物车
@@ -43,15 +29,106 @@ import com.thinkgem.jeesite.modules.zl.service.ZlWxSettingService;
 @Controller
 @RequestMapping(value = "${adminPath}/")
 public class ShopCarController extends BaseController {
-	
-	@Autowired
-	private ZlGoodsService zlGoodsService;
-	private Logger log = Logger.getLogger(getClass());
 
+	@Autowired
+	private ZlCartService zlCartService;
+
+	/**
+	 * 购物车首页
+	 * 
+	 * @param session
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "page/shopcar")
 	public String shopcar(HttpSession session, Model model) {
-		
+		ZlCart zlCart = new ZlCart();
+		// 开发环境
+		zlCart.setOppenId(getOppen_id(session));
+		// zlCart.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk");
+		List<ZlCart> list = zlCartService.findList(zlCart);
+		Float tprice = zlCartService.goodsTotalPrice(zlCart);
+		Integer tnum = zlCartService.goodsTotalNum(zlCart);
+		model.addAttribute("cartList", list);
+		model.addAttribute("tprice", tprice);
+		model.addAttribute("tnum", tnum);
 		return "modules/page/shopcar";
 	}
 
+	/**
+	 * 添加到购物车
+	 * 
+	 * @param session
+	 * @param zlCart
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "page/cartInsert")
+	public String cartInsert(HttpSession session, ZlCart zlCart,
+			HttpServletRequest request, HttpServletResponse response) {
+		// 存放返回值
+		Map<String, Object> map = new HashMap<String, Object>();
+		// zlCart.setGoodsId(zlCart.getGoodsId());
+		zlCart.setOppenId(getOppen_id(session));
+		// zlCart.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk"); //测试环境
+		int cart_num = Integer.parseInt(session.getAttribute("cart_num")
+				.toString()) + 1;
+		session.setAttribute("cart_num", cart_num);
+		// 查询购物车中，登录人，选择商品的数量
+		ZlCart cart = zlCartService.get(zlCart);
+		int rs = 0;
+		int goodsNum = 0;
+		// 修改
+		if (cart != null) {
+			// 表示购物车中，有买个此商品，就修改
+			goodsNum = cart.getGoodsNum() + zlCart.getGoodsNum();
+			cart.setGoodsTotal(zlCart.getGoodsPrice() * goodsNum);
+			cart.setGoodsNum(goodsNum);
+			cart.setIsNewRecord(false);
+			zlCartService.save(cart);
+			rs = 1;
+		} else {
+			// 表示购物车中，没有这个商品，就新添加
+			goodsNum = zlCart.getGoodsNum();
+			zlCart.setGoodsTotal(zlCart.getGoodsPrice() * goodsNum);
+			zlCart.setIsNewRecord(true);
+			zlCartService.save(zlCart);
+			rs = 1;
+		}
+		map.put("rs_code", rs);
+		map.put("cart_num", cart_num);
+		return renderString(response, map);
+	}
+
+	@RequestMapping(value = "page/cartUpdate")
+	public String cartUpdate(HttpSession session, ZlCart zlCart,
+			HttpServletRequest request, HttpServletResponse response) {
+		// 存放返回值
+		Map<String, Object> map = new HashMap<String, Object>();
+		zlCart.setOppenId(getOppen_id(session));
+		// zlCart.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk"); //测试环境
+		int cart_num = Integer.parseInt(session.getAttribute("cart_num")
+				.toString());
+		if (zlCart.getS() == 1) {
+			cart_num = cart_num + 1;
+		} else {
+			cart_num = cart_num - 1;
+		}
+		session.setAttribute("cart_num", cart_num);
+		// 查询购物车中，登录人，选择商品的数量
+		ZlCart cart = zlCartService.get(zlCart);
+		int rs = 0;
+		// 修改
+		if (cart != null) {
+			cart.setGoodsTotal(zlCart.getGoodsPrice() * zlCart.getGoodsNum());
+			cart.setGoodsNum(zlCart.getGoodsNum());
+			cart.setIsNewRecord(false);
+			zlCartService.save(cart);
+			rs = 1;
+		}
+		map.put("rs_code", rs);
+		map.put("cart_num", cart_num);
+		return renderString(response, map);
+	}
 }

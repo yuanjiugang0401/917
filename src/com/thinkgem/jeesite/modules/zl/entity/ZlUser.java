@@ -26,7 +26,7 @@ public class ZlUser extends DataEntity<ZlUser> {
 	private Date memberTime;		// 成为会员的时间
 	private String areaId;		// 区域编号
 	private String areaName;		// 区域名称
-	private String balance;		// 账户余额
+	private Float balance;		// 账户余额
 	private Date updateTime;		// 修改时间
 	
 	public ZlUser() {
@@ -118,12 +118,11 @@ public class ZlUser extends DataEntity<ZlUser> {
 		this.areaName = areaName;
 	}
 	
-	@Length(min=0, max=255, message="账户余额长度必须介于 0 和 255 之间")
-	public String getBalance() {
+	public Float getBalance() {
 		return balance;
 	}
 
-	public void setBalance(String balance) {
+	public void setBalance(Float balance) {
 		this.balance = balance;
 	}
 	
