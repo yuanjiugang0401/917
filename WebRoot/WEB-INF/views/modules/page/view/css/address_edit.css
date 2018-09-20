@@ -39,3 +39,9 @@
 .recharge {
 	border-bottom: 1px solid #f5f5f5;
 }
+
+.list {
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
