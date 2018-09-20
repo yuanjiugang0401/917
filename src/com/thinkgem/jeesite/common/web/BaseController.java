@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
@@ -237,6 +238,13 @@ public abstract class BaseController {
 		});
 	}
 
+	public String getOppen_id(HttpSession session) {
+		return  session.getAttribute("oppen_id").toString();
+	}
+	public void setOppen_id(String oppen_id, HttpSession session){
+		
+		session.setAttribute("oppen_id", oppen_id);
+	}
 	public ModelAndView getModelAndView() {
 		return new ModelAndView();
 	}

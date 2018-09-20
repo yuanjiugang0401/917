@@ -11,6 +11,9 @@
 		<link rel="stylesheet" type="text/css" href="${ctxStatic}/css/icon.css">
 		<link rel="stylesheet" type="text/css" href="${ctxStatic}/css/index.css">
 		<link rel="stylesheet" type="text/css" href="${ctxStatic}/css/footer.css">
+		<script type="text/javascript" src="${ctxStatic}/jquery/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="${ctxStatic}/layer-v3.1.1/layer/layer.js"></script>
+		<script type="text/javascript" src="${ctxStatic}/js/popbox.js"></script>
 		<script type="text/javascript" src="${ctxStatic}/js/autosize.js"></script>
 	</head>
 	<body>
@@ -22,12 +25,41 @@
 					<p>${zlGoods.goodsName}</p>
 					<span>¥${zlGoods.goodsPrice}</span>
 					<div class="cart">
-						<i class="iconfont icon-gouwuche"></i>
+						<a href="javascript:;" onclick="addcart('${zlGoods.id}','${zlGoods.goodsName}','${fn:split(zlGoods.goodsPic,'|')[0]}','${zlGoods.goodsSpe}','${zlGoods.goodsPrice}')"><i class="iconfont icon-gouwuche"></i></a>
 					</div>
 				</div>
 			</li>
 			</c:forEach>
 		</ul>
+		<script type="text/javascript">
+		function addcart(goods_id,goods_name,goods_pic,goods_spe,goods_price){
+			$.ajax({
+				url:'${ctx}/page/cartInsert',
+				type:'post',
+				data:{
+					'goodsId':goods_id,
+					'goodsName':goods_name,
+					'goodsPic':goods_pic,
+					'goodsSpe':goods_spe,
+					'goodsPrice':goods_price,
+					'goodsNum':1
+				},
+				success:function(rs){
+					if(rs.rs_code==1){
+						$('#cart_num').text(rs.cart_num);
+						Popbox.box("已加入购物车！");
+					}
+					else if(rs.rs_code==1005){
+						Popbox.box("登录已失效，重新登录中，请稍后...");
+						setTimeout('window.location.href=history.go(-1)',2000);
+					}
+					else{
+						Popbox.box("加入购物车失败！");
+					}
+				}
+			})
+	    }
+		</script>
 		<jsp:include page="footer.jsp"></jsp:include>
 	</body>
 </html>
