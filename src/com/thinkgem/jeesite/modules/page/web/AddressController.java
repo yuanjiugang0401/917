@@ -45,12 +45,24 @@ public class AddressController extends BaseController {
 	@RequestMapping(value = "page/addresslist")
 	public String addresslist(HttpSession session, Model model,
 			HttpServletRequest request, HttpServletResponse response) {
-		ZlAddress zlAddress = new ZlAddress();
-		zlAddress.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk");// 测试环境
+		ZlAddress address = new ZlAddress();
+		address.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk");// 测试环境
 		// zlAddress.setOppenId(getOppen_id(session));//开发环境
-		List<ZlAddress> list = zlAddressService.findList(zlAddress);
+		List<ZlAddress> list = zlAddressService.findList(address);
 		model.addAttribute("addressList", list);
-		return "modules/page/addresslist";
+		return "modules/page/addressList";
+	}
+	
+	@RequestMapping(value = "page/orderAddressList")
+	public String orderAddressList(HttpSession session, Model model,
+			HttpServletRequest request, HttpServletResponse response,ZlAddress zlAddress) {
+		ZlAddress address = new ZlAddress();
+		address.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk");// 测试环境
+		// zlAddress.setOppenId(getOppen_id(session));//开发环境
+		List<ZlAddress> list = zlAddressService.findList(address);
+		model.addAttribute("goodsId", zlAddress.getGoodsId());
+		model.addAttribute("addressList", list);
+		return "modules/page/orderAddressList";
 	}
 	/**
 	 * 跳转到添加页面
@@ -67,7 +79,7 @@ public class AddressController extends BaseController {
 			@RequestParam(required = false) String id) {
 		ZlAddress entity = null;
 		if (StringUtils.isNotBlank(id)) {
-			entity = zlAddressService.get(id);
+			entity = zlAddressService.get(new ZlAddress(id));
 		}
 		if (entity == null) {
 			entity = new ZlAddress();
@@ -75,7 +87,29 @@ public class AddressController extends BaseController {
 		model.addAttribute("address", entity);
 		return "modules/page/addressInfo";
 	}
-
+	/**
+	 *订单用的地址修改
+	 * @param session
+	 * @param model
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "page/orderAddressInfo")
+	public String orderAddressInfo(HttpSession session, Model model,
+			HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(required = false) String id) {
+		ZlAddress entity = null;
+		if (StringUtils.isNotBlank(id)) {
+			entity = zlAddressService.get(new ZlAddress(id));
+		}
+		if (entity == null) {
+			entity = new ZlAddress();
+		}
+		model.addAttribute("address", entity);
+		return "modules/page/orderAddressInfo";
+	}
 	/**
 	 * 添加和修改
 	 * @param session
@@ -97,6 +131,7 @@ public class AddressController extends BaseController {
 			zlAddressService.updateAll(zlAddress);
 		}//判斷是修改還是刪除 如果是修改
 		if(StringUtils.isNotBlank(zlAddress.getId())){
+			
 			ZlAddress address = zlAddressService.get(zlAddress);
 			zlAddress.setId(address.getId());
 			zlAddress.setIsNewRecord(false);

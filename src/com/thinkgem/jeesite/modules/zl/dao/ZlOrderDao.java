@@ -5,16 +5,14 @@ package com.thinkgem.jeesite.modules.zl.dao;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.zl.entity.ZlAddress;
+import com.thinkgem.jeesite.modules.zl.entity.ZlOrder;
 
 /**
- * 地址DAO接口
+ * 订单DAO接口
  * @author yjg
- * @version 2018-09-20
+ * @version 2018-09-21
  */
 @MyBatisDao
-public interface ZlAddressDao extends CrudDao<ZlAddress> {
-    public void updateAll(ZlAddress zlAddress);
+public interface ZlOrderDao extends CrudDao<ZlOrder> {
 	
-    public ZlAddress selectByIsDefault(ZlAddress zlAddress);
 }

@@ -34,7 +34,7 @@ public class HomeController extends BaseController {
 	private ZlUserService zlUserService;
 
 	@RequestMapping(value = "page/home")
-	public String shopcar(HttpSession session, Model model) {
+	public String home(HttpSession session, Model model) {
 		ZlUser zlUser = new ZlUser();
 		// 正式环境
 		//zlUser.setOppenId(getOppen_id(session));

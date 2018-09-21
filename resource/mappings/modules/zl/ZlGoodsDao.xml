@@ -16,7 +16,7 @@
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
-		a.update_time AS "updateTime",
+		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag"
 	</sql>
@@ -104,7 +104,7 @@
 			create_by,
 			create_date,
 			update_by,
-			update_time,
+			update_date,
 			remarks,
 			del_flag
 		) VALUES (
@@ -120,7 +120,7 @@
 			#{createBy.id},
 			#{createDate},
 			#{updateBy.id},
-			#{updateTime},
+			#{updateDate},
 			#{remarks},
 			#{delFlag}
 		)
@@ -138,7 +138,7 @@
 			goods_count = #{goodsCount},
 			status = #{status},
 			update_by = #{updateBy.id},
-			update_time = #{updateTime},
+			update_date = #{updateDate},
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>

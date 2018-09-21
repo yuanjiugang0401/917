@@ -1,6 +1,10 @@
 .list {
 	background: #f5f5f5;
 }
+.list a{
+	display: block;
+	color: #fff;
+}
 .item {
 	padding: 10px;
 	background: #fff;

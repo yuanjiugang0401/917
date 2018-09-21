@@ -49,4 +49,7 @@ public class ZlAddressService extends CrudService<ZlAddressDao, ZlAddress> {
 		dao.updateAll(zlAddress);
 	}
 	
+	public ZlAddress selectByIsDefault(ZlAddress zlAddress){
+		return dao.selectByIsDefault(zlAddress);
+	}
 }

@@ -51,7 +51,7 @@ public class ShopCarController extends BaseController {
 		Float tprice = zlCartService.goodsTotalPrice(zlCart);
 		Integer tnum = zlCartService.goodsTotalNum(zlCart);
 		model.addAttribute("cartList", list);
-		model.addAttribute("tprice", tprice);
+		//model.addAttribute("tprice", tprice);
 		model.addAttribute("tnum", tnum);
 		return "modules/page/shopcar";
 	}

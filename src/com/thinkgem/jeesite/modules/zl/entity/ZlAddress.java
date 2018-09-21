@@ -24,6 +24,7 @@ public class ZlAddress extends DataEntity<ZlAddress> {
 	private String addrCity;		// 城市
 	private String isDefault;		// 是否默认
 	private String oppenId;		// 地址归属者
+	private String goodsId;     //商品編號
 	
 	public ZlAddress() {
 		super();
@@ -112,6 +113,14 @@ public class ZlAddress extends DataEntity<ZlAddress> {
 
 	public void setOppenId(String oppenId) {
 		this.oppenId = oppenId;
+	}
+
+	public String getGoodsId() {
+		return goodsId;
+	}
+
+	public void setGoodsId(String goodsId) {
+		this.goodsId = goodsId;
 	}
 	
 }

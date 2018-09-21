@@ -28,9 +28,30 @@
 			<include refid="zlAddressColumns"/>
 		FROM zl_address a
 		<include refid="zlAddressJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+       <if test="id != null and id != ''">
+           and a.id=#{id}
+	   </if>
+	   <if test="oppenId != null and oppenId != ''">
+           and a.oppen_id=#{oppenId}
+	   </if>
 	</select>
-	
+	<select id="selectByIsDefault" resultType="ZlAddress">
+		SELECT 
+			<include refid="zlAddressColumns"/>
+		FROM zl_address a
+		<include refid="zlAddressJoins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+       <if test="id != null and id != ''">
+           and a.id=#{id}
+	   </if>
+	    <if test="oppenId != null and oppenId != ''">
+           and a.oppen_id=#{oppenId}
+	   </if>
+	   <if test="isDefault != null and isDefault != ''">
+	       and a.is_default=1
+	   </if>
+	</select>
 	<select id="findList" resultType="ZlAddress">
 		SELECT 
 			<include refid="zlAddressColumns"/>

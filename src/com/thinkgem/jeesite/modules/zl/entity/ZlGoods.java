@@ -26,7 +26,7 @@ public class ZlGoods extends DataEntity<ZlGoods> {
 	private String goodsType;		// 商品类别
 	private String goodsCount;		// 商品库存
 	private String status;		// 商品状态
-	private Date updateTime;		// 修改时间
+	private Date updateDate;		// 修改时间
 	
 	public ZlGoods() {
 		super();
@@ -113,14 +113,16 @@ public class ZlGoods extends DataEntity<ZlGoods> {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date getUpdateTime() {
-		return updateTime;
+	public Date getUpdateDate() {
+		return updateDate;
 	}
 
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
 	}
+	
+	
+	
 	
 }

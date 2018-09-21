@@ -63,6 +63,9 @@
 					<if test="dbName == 'mssql'">'%'+#{oppenId}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{oppenId},'%')</if>
 			</if>
+			<if test="goodsId != null and goodsId != ''">
+				AND a.goods_id in (${goodsId})
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -162,7 +165,11 @@
 		WHERE goods_id = #{goodsId}
 	</update>
 	<select id="goodsTotalPrice" resultType="java.lang.Float">
-        select IFNULL(sum(binary(goods_total)),0) from zl_cart where oppen_id=#{oppenId} and del_flag='0'
+        select IFNULL(sum(binary(goods_total)),0) from zl_cart where oppen_id=#{oppenId}
+        and del_flag='0'
+        <if test="goodsId != null and goodsId != ''">
+          and goods_id in(${goodsId})
+        </if>
     </select>
      <select id="goodsTotalNum" resultType="java.lang.Integer">
         select IFNULL(sum(goods_num),0) from zl_cart where oppen_id=#{oppenId} and del_flag='0'
