@@ -8,6 +8,7 @@
 		<title>购物车</title>
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="${ctxStatic}/css/normalize.css">
+		<link rel="stylesheet" type="text/css" href="${ctxStatic}/css/weui.min.css">
 		<link rel="stylesheet" type="text/css" href="${ctxStatic}/css/icon.css">
 		<link rel="stylesheet" type="text/css" href="${ctxStatic}/css/global.css">
 		<link rel="stylesheet" type="text/css" href="${ctxStatic}/css/shopcar.css">
@@ -24,37 +25,50 @@
 			</div>
 			<div class="header-title">购物车</div>
 		</header>
-		<div class="list">
-		<c:forEach items="${cartList}" var="zlCart" varStatus="s">
-			<div class="item">
-				<div class="item-t">
-					<img src="${ctxStatic}/images/icon-dele.png">
-				</div>
-				<div class="item-cont">
-					<div class="item-cont-l">
-						<img src="${zlCart.goodsPic}">
+		<div class="list" id="list">
+			<c:forEach items="${cartList}" var="zlCart" varStatus="s">
+				<div class="item">
+					<div class="item-t">
+						<a href="javascript:void(0)" onclick="del('${zlCart.goodsId}')"><img src="${ctxStatic}/images/icon-dele.png"></a>
 					</div>
-					<div class="item-cont-r">
-						<h3 class="ellipsis">${zlCart.goodsName}</h3>
-						<p>规格：${zlCart.goodsSpe}</p>
-						<div class="price-calc">
-							<div class="price">
-								￥<em>${zlCart.goodsPrice}</em>
-							</div>
-							<div class="calc">
-								<a href="javascript:void(0)" onclick="min('${zlCart.goodsId}','${zlCart.goodsPrice}','${s.count}')"><i>-</i></a>
-								<input id="goods_num${s.count}" value="${zlCart.goodsNum}" type="text" readonly="readonly"/>
-								<a href="javascript:void(0)" onclick="plus('${zlCart.goodsId}','${zlCart.goodsPrice}','${s.count}')"><i>+</i></a>
+					<div class="item-cont">
+						<div class="weui-media-box__hd check-w weui-cells_checkbox">
+				          	<label class="weui-check__label" for="cart-pto${s.count}">
+				            	<div class="weui-cell__hd cat-check"><input class="weui-check" name="cartpro" id="cart-pto${s.count}" type="checkbox"><i class="weui-icon-checked"></i></div>
+				          	</label>
+				        </div>
+						<div class="item-cont-l">
+							<img src="${zlCart.goodsPic}">
+						</div>
+						<div class="item-cont-r">
+							<h3 class="ellipsis">${zlCart.goodsName}</h3>
+							<p>规格：${zlCart.goodsSpe}</p>
+							<div class="price-calc">
+								<div class="price">
+									￥<em>${zlCart.goodsPrice}</em>
+								</div>
+								<div class="calc">
+									<a href="javascript:void(0)" onclick="min('${zlCart.goodsId}','${zlCart.goodsPrice}','${s.count}')"><i>-</i></a>
+									<input id="goods_num${s.count}" value="${zlCart.goodsNum}" type="text" readonly="readonly"/>
+									<a href="javascript:void(0)" onclick="plus('${zlCart.goodsId}','${zlCart.goodsPrice}','${s.count}')"><i>+</i></a>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 			</c:forEach>
 		</div>
 		<input type="hidden" value="${tnum}" id='tnum1'>
-    <input type="hidden" value="${tprice}" id='tprice1'>
+        <input type="hidden" value="${tprice}" id='tprice1'>
 		<div class="settle">
+		   <div class="weui-media-box__hd check-w weui-cells_checkbox">
+              	<label class="weui-check__label fl" for="all">
+                	<div class="weui-cell__hd cat-check"><input class="weui-check" name="cartpro" id="all" type="checkbox"><i class="weui-icon-checked"></i></div>
+                	<div class="weui-cell__bd">
+	                    <p>全选</p>
+	                </div>
+              	</label>
+            </div>
 			<div class="set-l">
 				<p>合计：<i>￥</i><em id="em_price">${tprice}</em></p>
 			</div>
@@ -76,7 +90,7 @@
 	     var tprice1 = $('#tprice1').val();
 	     var tnum = parseInt(tnum1)+1;
 	     var cart_num = parseInt(cart_num)+1;
-	     var tprice=(parseFloat(tprice1)+parseFloat(goods_price)).toFixed(1);
+	     var tprice=(parseFloat(tprice1)+parseFloat(goods_price)).toFixed(2);
 	     $.ajax({
 	    		url:'${ctx}/page/cartUpdate',
 	    		type:'post',
@@ -112,7 +126,7 @@
 		var tnum1 = $('#tnum1').val();
     	var tprice1 = $('#tprice1').val();
     	var tnum = parseInt(tnum1)-1;
-    	var tprice = (parseFloat(tprice1)-parseFloat(goods_price)).toFixed(1);
+    	var tprice = (parseFloat(tprice1)-parseFloat(goods_price)).toFixed(2);
 	   	$.ajax({
 	    		url:'${ctx}/page/cartUpdate',
 	    		type:'post',
@@ -137,6 +151,36 @@
 	    		}
 	    })
 	}
+	//删除事件
+	 function del(goods_id){
+	    	cart_num = parseInt(cart_num)-1;
+	    	layer.confirm('确定要删除？', {
+	    		 skin: 'layui-layer-molv',
+	             btn: ['确定','取消'] //按钮
+	    		}, function(){
+	    			$.ajax({
+	    	    		url:'${ctx}/page/cartDel',
+	    	    		type:'post',
+	    	    		data:{
+	    					'goodsId':goods_id
+	    				},
+	    	    		success:function(rs){
+	    					if(rs.rs_code==1){
+	    					$('#cart_num').text(rs.cart_num);
+	    	    				location.reload();
+	    	    			}
+	    					else if(rs.rs_code==1005){
+	    						Popbox.box("登录已失效，重新登录中，请稍后...");
+	    						setTimeout('window.location.href=history.go(-1)',2000);
+	    					}else{
+	    						Popbox.box('系统故障');
+	    	    			}
+	    	    		}
+	    	    	})
+	    		}, function(){
+		    		
+	    	});
+	   }
 	</script>
 	</body>
 </html>

@@ -48,8 +48,20 @@
 		<include refid="zlCartJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="oppenId != null and oppenId != ''">
+			<!--<if test="oppenId != null and oppenId != ''">
 				AND a.oppen_id=#{oppenId}
+			</if>-->
+			<if test="goodsName != null and goodsName != ''">
+				AND a.goods_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{goodsName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{goodsName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{goodsName},'%')</if>
+			</if>
+			<if test="oppenId != null and oppenId != ''">
+				AND a.oppen_id LIKE 
+					<if test="dbName == 'oracle'">'%'||#{oppenId}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{oppenId}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{oppenId},'%')</if>
 			</if>
 		</where>
 		<choose>
@@ -68,8 +80,20 @@
 		<include refid="zlCartJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="oppenId != null and oppenId != ''">
+			<!--<if test="oppenId != null and oppenId != ''">
 				AND a.oppen_id=#{oppenId}
+			</if>-->
+			<if test="goodsName != null and goodsName != ''">
+				AND a.goods_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{goodsName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{goodsName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{goodsName},'%')</if>
+			</if>
+			<if test="oppenId != null and oppenId != ''">
+				AND a.oppen_id LIKE 
+					<if test="dbName == 'oracle'">'%'||#{oppenId}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{oppenId}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{oppenId},'%')</if>
 			</if>
 		</where>		
 		<choose>
@@ -135,7 +159,7 @@
 	<update id="delete">
 		UPDATE zl_cart SET 
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+		WHERE goods_id = #{goodsId}
 	</update>
 	<select id="goodsTotalPrice" resultType="java.lang.Float">
         select IFNULL(sum(binary(goods_total)),0) from zl_cart where oppen_id=#{oppenId} and del_flag='0'

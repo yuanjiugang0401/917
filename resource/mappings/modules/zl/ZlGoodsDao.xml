@@ -39,6 +39,18 @@
 		<include refid="zlGoodsJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="goodsName != null and goodsName != ''">
+				AND a.goods_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{goodsName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{goodsName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{goodsName},'%')</if>
+			</if>
+			<if test="goodsType != null and goodsType != ''">
+				AND a.goods_type LIKE 
+					<if test="dbName == 'oracle'">'%'||#{goodsType}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{goodsType}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{goodsType},'%')</if>
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -56,6 +68,18 @@
 		<include refid="zlGoodsJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="goodsName != null and goodsName != ''">
+				AND a.goods_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{goodsName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{goodsName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{goodsName},'%')</if>
+			</if>
+			<if test="goodsType != null and goodsType != ''">
+				AND a.goods_type LIKE 
+					<if test="dbName == 'oracle'">'%'||#{goodsType}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{goodsType}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{goodsType},'%')</if>
+			</if>
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

@@ -44,8 +44,9 @@ public class ShopCarController extends BaseController {
 	public String shopcar(HttpSession session, Model model) {
 		ZlCart zlCart = new ZlCart();
 		// 开发环境
-		zlCart.setOppenId(getOppen_id(session));
-		// zlCart.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk");
+		//zlCart.setOppenId(getOppen_id(session));
+		//测试环境
+		zlCart.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk");
 		List<ZlCart> list = zlCartService.findList(zlCart);
 		Float tprice = zlCartService.goodsTotalPrice(zlCart);
 		Integer tnum = zlCartService.goodsTotalNum(zlCart);
@@ -70,8 +71,8 @@ public class ShopCarController extends BaseController {
 		// 存放返回值
 		Map<String, Object> map = new HashMap<String, Object>();
 		// zlCart.setGoodsId(zlCart.getGoodsId());
-		zlCart.setOppenId(getOppen_id(session));
-		// zlCart.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk"); //测试环境
+		//zlCart.setOppenId(getOppen_id(session));
+		zlCart.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk"); //测试环境
 		int cart_num = Integer.parseInt(session.getAttribute("cart_num")
 				.toString()) + 1;
 		session.setAttribute("cart_num", cart_num);
@@ -106,8 +107,8 @@ public class ShopCarController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) {
 		// 存放返回值
 		Map<String, Object> map = new HashMap<String, Object>();
-		zlCart.setOppenId(getOppen_id(session));
-		// zlCart.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk"); //测试环境
+		//zlCart.setOppenId(getOppen_id(session));
+		zlCart.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk"); //测试环境
 		int cart_num = Integer.parseInt(session.getAttribute("cart_num")
 				.toString());
 		if (zlCart.getS() == 1) {
@@ -127,6 +128,26 @@ public class ShopCarController extends BaseController {
 			zlCartService.save(cart);
 			rs = 1;
 		}
+		map.put("rs_code", rs);
+		map.put("cart_num", cart_num);
+		return renderString(response, map);
+	}
+	@RequestMapping(value = "page/cartDel")
+	public String cartDel(ZlCart zlCart,HttpSession session,HttpServletResponse response,HttpServletRequest request){
+		// 存放返回值
+		Map<String, Object> map = new HashMap<String, Object>();
+		//查询该商品
+		ZlCart cart=zlCartService.get(zlCart);
+		int cart_num=0;
+		int rs=0;
+		if(cart!=null){
+			cart_num =Integer.parseInt(session.getAttribute("cart_num").toString())-cart.getGoodsNum();
+			rs=1;
+		}else{
+			rs=-1;
+		}
+		session.setAttribute("cart_num", cart_num);
+		zlCartService.delete(zlCart);
 		map.put("rs_code", rs);
 		map.put("cart_num", cart_num);
 		return renderString(response, map);

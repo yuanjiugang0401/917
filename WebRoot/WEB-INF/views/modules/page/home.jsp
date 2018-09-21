@@ -5,6 +5,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 		<title>我的</title>
 		<link rel="stylesheet" type="text/css"
 			href="${ctxStatic}/css/normalize.css">
@@ -90,19 +91,21 @@
 				</ul>
 			</div>
 			<div class="list">
-				<div class="list-t">
-					<div class="list-t-l">
-						<div class="list-icon">
-							<img src="${ctxStatic}/images/center-icon-dz.png">
+				<a href="${ctx}/page/addresslist">
+					<div class="list-t">
+						<div class="list-t-l">
+							<div class="list-icon">
+								<img src="${ctxStatic}/images/center-icon-dz.png">
+							</div>
+							<p>
+								地址管理
+							</p>
 						</div>
-						<p>
-							地址管理
-						</p>
+						<div class="icon-arrow">
+							<i class="iconfont icon-jiantou1"></i>
+						</div>
 					</div>
-					<div class="icon-arrow">
-						<i class="iconfont icon-jiantou1"></i>
-					</div>
-				</div>
+				</a>
 			</div>
 			<div class="list">
 				<div class="list-t">

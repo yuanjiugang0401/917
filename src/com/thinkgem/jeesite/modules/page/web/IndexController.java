@@ -59,8 +59,8 @@ public class IndexController extends BaseController {
 		ZlGoods zlGoods=new ZlGoods(); 
 		List<ZlGoods> goodsList=zlGoodsService.findList(zlGoods);
 		ZlCart zlCart=new ZlCart();
-		//zlCart.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk");
-		zlCart.setOppenId(getOppen_id(session));
+		zlCart.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk");
+		//zlCart.setOppenId(getOppen_id(session));
 		long cart_num= zlCartService.goodsTotalNum(zlCart);
 		//模拟购物车中数量
 		session.setAttribute("cart_num", cart_num);

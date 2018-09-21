@@ -37,9 +37,9 @@ public class HomeController extends BaseController {
 	public String shopcar(HttpSession session, Model model) {
 		ZlUser zlUser = new ZlUser();
 		// 正式环境
-		zlUser.setOppenId(getOppen_id(session));
+		//zlUser.setOppenId(getOppen_id(session));
 		// 测试数据
-		// zlUser.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk");
+		zlUser.setOppenId("obeSL1UNxLBxm4KhTeYEppRyX_sk");
 
 		ZlUser user = zlUserService.get(zlUser);
 		user.setRealname(EmojiUtil.emojiRecovery(user.getRealname()));
