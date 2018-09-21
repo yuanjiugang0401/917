@@ -1,3 +1,6 @@
+body {
+	line-height: 1.15;
+}
 .list {
 	background: #f5f5f5;
 	margin-bottom: 120px;
@@ -14,10 +17,13 @@
 	width: 24px;
 }
 .item-cont {
-	overflow: hidden;
+	display: flex;
+	align-items: center;
+}
+.weui-media-box__hd {
+	width: 35px;
 }
 .item-cont-l {
-	float: left;
 	width: 80px;
 	height: 80px;
 }
@@ -25,8 +31,7 @@
 	width: 100%;
 }
 .item-cont-r {
-	float: left;
-	width: calc(100% - 80px);
+	width: calc(100% - 115px);
 	padding-left: 10px;
 	box-sizing: border-box;
 }
@@ -74,6 +79,9 @@
 	font-size: 16px;
 	color: #333;
 }
+.calc a i {
+	font-style: normal;
+}
 .calc input {
 	width: 26px;
 	height: 14px;
@@ -96,8 +104,8 @@
 	height: 46px;
 	display: flex;
 	align-items: center;
-	justify-content: flex-end;
 	background-color: #f7f7fa;
+	justify-content: space-between;
 }
 .set-l {
 	margin-right: 10px;
@@ -221,4 +229,21 @@
 	font-size: 18px;
 	border-radius: 6px;
 	margin: 20px 0;
+}
+
+.settle .weui-media-box__hd {
+	width: 76px;
+}
+.fl {
+	display: flex;
+	background: #ddd;
+	height: 46px;
+	line-height: 46px;
+}
+.fl i {
+	line-height: 46px;
+}
+.fl .weui-cell__bd {
+	color: #222;
+	font-size: 15px;
 }

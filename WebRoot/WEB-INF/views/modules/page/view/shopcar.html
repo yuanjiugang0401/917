@@ -4,12 +4,12 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>dao</title>
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="css/weui.min.css">
 		<link rel="stylesheet" type="text/css" href="css/normalize.css">
 		<link rel="stylesheet" type="text/css" href="css/icon.css">
 		<link rel="stylesheet" type="text/css" href="css/global.css">
 		<link rel="stylesheet" type="text/css" href="css/shopcar.css">
 		<link rel="stylesheet" type="text/css" href="css/footer.css">
-		<script type="text/javascript" src="js/autosize.js"></script>
 	</head>
 	<body>
 		<header class="header">
@@ -18,12 +18,17 @@
 			</div>
 			<div class="header-title">购物车</div>
 		</header>
-		<div class="list">
+		<div class="list" id="list">
 			<div class="item">
 				<div class="item-t">
 					<img src="images/icon-dele.png">
 				</div>
 				<div class="item-cont">
+					<div class="weui-media-box__hd check-w weui-cells_checkbox">
+			          	<label class="weui-check__label" for="cart-pto1">
+			            	<div class="weui-cell__hd cat-check"><input class="weui-check" name="cartpro" id="cart-pto1" type="checkbox"><i class="weui-icon-checked"></i></div>
+			          	</label>
+			        </div>
 					<div class="item-cont-l">
 						<img src="images/pro3.jpg">
 					</div>
@@ -48,6 +53,11 @@
 					<img src="images/icon-dele.png">
 				</div>
 				<div class="item-cont">
+					<div class="weui-media-box__hd check-w weui-cells_checkbox">
+			          	<label class="weui-check__label" for="cart-pto2">
+			            	<div class="weui-cell__hd cat-check"><input class="weui-check" name="cartpro" id="cart-pto2" type="checkbox"><i class="weui-icon-checked"></i></div>
+			          	</label>
+			        </div>
 					<div class="item-cont-l">
 						<img src="images/pro3.jpg">
 					</div>
@@ -72,6 +82,11 @@
 					<img src="images/icon-dele.png">
 				</div>
 				<div class="item-cont">
+					<div class="weui-media-box__hd check-w weui-cells_checkbox">
+			          	<label class="weui-check__label" for="cart-pto3">
+			            	<div class="weui-cell__hd cat-check"><input class="weui-check" name="cartpro" id="cart-pto3" type="checkbox"><i class="weui-icon-checked"></i></div>
+			          	</label>
+			        </div>
 					<div class="item-cont-l">
 						<img src="images/pro3.jpg">
 					</div>
@@ -96,6 +111,11 @@
 					<img src="images/icon-dele.png">
 				</div>
 				<div class="item-cont">
+					<div class="weui-media-box__hd check-w weui-cells_checkbox">
+			          	<label class="weui-check__label" for="cart-pto4">
+			            	<div class="weui-cell__hd cat-check"><input class="weui-check" name="cartpro" id="cart-pto4" type="checkbox"><i class="weui-icon-checked"></i></div>
+			          	</label>
+			        </div>
 					<div class="item-cont-l">
 						<img src="images/pro3.jpg">
 					</div>
@@ -117,9 +137,14 @@
 			</div>
 		</div>
 		<div class="settle">
-			<div class="set-l">
-				<p>总计：<em>12</em> 件</p>
-			</div>
+    		<div class="weui-media-box__hd check-w weui-cells_checkbox">
+              	<label class="weui-check__label fl" for="all">
+                	<div class="weui-cell__hd cat-check"><input class="weui-check" name="cartpro" id="all" type="checkbox"><i class="weui-icon-checked"></i></div>
+                	<div class="weui-cell__bd">
+	                    <p>全选</p>
+	                </div>
+              	</label>
+            </div>
 			<div class="set-l">
 				<p>合计：<i>￥</i><em>2222.00</em></p>
 			</div>
@@ -151,5 +176,33 @@
 				</li>
 			</ul>
 		</footer>
+		<script type="text/javascript">	
+			var checks = list.querySelectorAll('input[type = checkbox]');
+			//全选
+			all.onclick = function() {
+				var i = 0, len = checks.length;
+				for(; i < len; i++) {
+					var check = checks[i];
+					check.checked = this.checked;
+				};
+			};
+
+			var i = 0, len = checks.length;
+			for(; i < len; i++) {
+				var check = checks[i];
+				check.onclick = function() {
+
+					for(i = 0; i < len; i++) {
+						check = checks[i];
+
+						if (!check.checked) {
+							all.checked = false;
+							break;
+						}
+						all.checked = true;
+					}
+				}
+			}
+		</script>
 	</body>
 </html>
